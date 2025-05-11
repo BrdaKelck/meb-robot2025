@@ -17,26 +17,44 @@ The primary objective of this project is to quickly inform authorized emergency 
 ## 📁 Folder Structure
 
 project_root/
+
 ├── known_faces/
+
 │ ├── host1/
+
 │ │ ├── face1.jpg
+
 │ │ ├── face2.jpg
+
 │ │ └── ...
+
 │ ├── host2/
+
 │ │ └── ...
+
 │ └── ...
+
 │
+
 ├── unknown_faces/
+
 │ ├── guest1/
+
 │ │ ├── face1.jpg
+
 │ │ ├── face2.jpg
+
 │ │ └── ...
+
 │ ├── guest2/
+
 │ │ └── ...
+
 │ └── ...
 
 
-🔍 Firestore Database Structure
+
+## 🔍 Firestore Database Structure
 We are using Cloud Firestore to manage and track the presence of recognized faces.
 
 📁 Collection: bina1
@@ -46,6 +64,8 @@ This is the main collection representing a physical building or area, such as a 
 Each document represents an individual person (recognized by face recognition) entering or exiting the building. The document ID corresponds to the person's name or generated guest ID (e.g. "john_doe", "guest0", "guest1"...).
 
 Example:
+
+
 
 bina1 (collection)
 ├── guest0 (document)
