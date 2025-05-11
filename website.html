@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Firestore ile Anlık Kişi Sayısı</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+  <style>#map { height: 100vh; }</style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+  <!-- Leaflet -->
+  <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+
+  <script>
+    // Firebase yapılandırması (kendi bilgilerinizle değiştirin)
+    const firebaseConfig = {
+  	apiKey: "AIzaSyAZL2DNms5iYtM-uKpkOMLMvnqzleFD9k8",
+  	authDomain: "meb-robot-2ded0.firebaseapp.com",
+  	projectId: "meb-robot-2ded0",
+  	storageBucket: "meb-robot-2ded0.firebasestorage.app",
+  	messagingSenderId: "312836908573",
+  	appId: "1:312836908573:web:3cfd5a0e4d4457208f08f4",
+  	measurementId: "G-8JCJE7CHNF"
+};
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // Harita
+    const map = L.map('map').setView([41.0086, 28.9779], 17);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap katkıda bulunanlar'
+    }).addTo(map);
+
+    // Bina polygonu (örnek koordinatlar)
+    const binaPolygon = L.polygon([
+      [41.0086, 28.9778],
+      [41.0086, 28.9780],
+      [41.0088, 28.9780],
+      [41.0088, 28.9778]
+    ], {
+      color: 'blue',
+      fillOpacity: 0.5
+    }).addTo(map);
+
+    // Tıklanınca Firestore'dan kişi sayısını al
+    binaPolygon.on('click', () => {
+      db.collection("bina1").get().then((querySnapshot) => {
+        const kisiSayisi = querySnapshot.size;
+        binaPolygon.bindPopup(`
+          <b>Bina 1</b><br>
+          Bu binada şu an <strong>${kisiSayisi}</strong> kişi var.
+        `).openPopup();
+      }).catch((error) => {
+        console.error("Firestore hatası:", error);
+        binaPolygon.bindPopup("Veri alınamadı.").openPopup();
+      });
+    });
+  </script>
+</body>
+</html>
