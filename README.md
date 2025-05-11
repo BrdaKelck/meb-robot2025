@@ -68,12 +68,19 @@ Example:
 
 
 bina1 (collection)
+
 ├── guest0 (document)
+
 │   └── saat: "10.30"
+
 ├── alice (document)
+
 │   └── saat: "10.45"
+
 ├── guest1 (document)
+
 │   └── saat: "11.00"
+
 
 
 📌 Fields in Each Document:
